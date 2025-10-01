@@ -29,27 +29,6 @@
       const { createRoot } = ReactDOM;
       const root = createRoot(document.getElementById("root"));
 
-      // Example simple app — replace with your App.js content
-      function App() {
-        const { useState } = React;
-        const [count, setCount] = useState(0);
-
-        return React.createElement(
-          "div",
-          { className: "p-8 text-center" },
-          React.createElement("h1", { className: "text-2xl font-bold mb-4" }, "🚀 LearningContent"),
-          React.createElement(
-            "button",
-            {
-              className: "bg-blue-500 text-white px-4 py-2 rounded",
-              onClick: () => setCount(count + 1),
-            },
-            `Clicked ${count} times`
-          )
-        );
-      }
-
-      root.render(React.createElement(App));
-    </script>
+        <script type="module" src="./src/App.js"></script>
   </body>
 </html>
