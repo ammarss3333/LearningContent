@@ -8,23 +8,24 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Prepare static site
-        run: |
-          # Remove any existing docs directory
-          rm -rf docs
-          mkdir -p docs
-          # Copy the root index and all source files into docs
-          cp index.html docs/
-          cp -r src docs/src
-          cp sample_questions.json docs/
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          enable_jekyll: false
+          publish_dir: ./dist
