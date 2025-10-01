@@ -26,13 +26,19 @@
   </head>
   <body class="bg-gray-50 min-h-screen">
     <div id="root"></div>
-    <!-- React and ReactDOM from unpkg.  Using production builds for performance. -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- React Router (v6) from unpkg -->
-    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js" crossorigin></script>
-    <!-- Framer Motion for animations -->
-    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js" crossorigin></script>
+
+
+<!-- Load React and ReactDOM from jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+<!-- Load React Router (v6) from jsDelivr – pin the version to avoid redirects -->
+<script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
+<!-- Load Framer Motion from jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
+
+
+    
+   
     <!-- Main application code (ES module) -->
     <script type="module" src="./src/App.js"></script>
   </body>
