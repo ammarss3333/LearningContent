@@ -1,5 +1,5 @@
 name: Deploy to GitHub Pages
- 
+
 on:
   push:
     branches:
@@ -29,4 +29,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          enable_jekyll: false
