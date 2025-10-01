@@ -16,7 +16,7 @@ export function shuffle(arr) {
 
 /**
  * Evaluates a single question given the user’s answer.  The question object
- * should include a `type` field and a `answer` field describing the correct
+ * should include a `type` field and an `answer` field describing the correct
  * response.  Depending on the question type, the shape of the `answer`
  * may differ:
  *
@@ -37,7 +37,10 @@ export function evaluateQuestion(question, userAnswer) {
       return Boolean(userAnswer) === Boolean(question.answer);
     case 'short':
       if (typeof userAnswer !== 'string') return false;
-      return userAnswer.trim().toLowerCase() === String(question.answer).trim().toLowerCase();
+      return (
+        userAnswer.trim().toLowerCase() ===
+        String(question.answer).trim().toLowerCase()
+      );
     case 'drag':
       // Compare arrays element‑wise
       if (!Array.isArray(userAnswer) || !Array.isArray(question.answer)) return false;
@@ -87,6 +90,6 @@ export function determineBadges(score, currentBadges, attemptsCount) {
   if (!currentBadges.includes('high_score') && score >= 80) {
     newBadges.push('high_score');
   }
-  // Additional badge criteria can go here
+  // Additional badge criteria can be added here
   return newBadges;
 }
