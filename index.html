@@ -39,9 +39,16 @@
     -->
     <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
-    <!-- Main application code (ES module) -->
+    <!-- React Router DOM (UMD build from unpkg).  We use unpkg for these libraries because
+         jsDelivr serves them with a plain/text MIME type causing browsers to block the
+         scripts when CORS headers are enforced.  Unpkg sets proper CORS headers for UMD builds.  Pin the version
+         to avoid unexpected upgrades. -->
+    <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+    <!-- Framer Motion (UMD build from unpkg).  We pin the version to a stable release. -->
+    <script src="https://unpkg.com/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
+    <!-- Main application code (ES module).  This script uses relative imports for local files and relies on
+         the global React/ReactDOM/ReactRouterDOM objects provided above.  Do not remove type="module" here,
+         otherwise the relative imports inside src/App.js will fail. -->
     <script type="module" src="./src/App.js"></script>
   </body>
 </html>
