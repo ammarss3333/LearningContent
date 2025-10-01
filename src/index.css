@@ -1,0 +1,10 @@
+/* Import Tailwind’s base, component and utility styles.  These directives
+ * will be processed by the Tailwind CLI during the build step to
+ * generate a minimal CSS bundle containing only the classes you use. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add any global CSS overrides or additional utility classes
+ * below.  For example, here we define CSS variables or custom
+ * styles that are not provided by Tailwind. */
