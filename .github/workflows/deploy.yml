@@ -17,11 +17,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'
 
+      # Optional but helps avoid weird permission issues with committed node_modules
+      - name: Clean workspace node_modules
+        run: rm -rf node_modules
+
+      # Use npm ci for reliable installs if you have package-lock.json
       - name: Install dependencies
-        run: npm install
+        env:
+          NODE_ENV: development
+        run: npm ci
 
       - name: Build project
+        env:
+          NODE_ENV: development
         run: npm run build
 
       - name: Deploy to GitHub Pages
@@ -29,3 +39,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          enable_jekyll: false
