@@ -1,9 +1,31 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LearningContent Platform</title>
+    <title>Student Exam Platform</title>
+    <!--
+      TailwindCSS is loaded via CDN to keep the front‑end fully static.  When the page loads in a modern browser
+      with an internet connection the CDN will download the framework.  If you wish to customise the styles or
+      host Tailwind yourself you can replace this with a locally compiled CSS file.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Optional: include a custom colour palette or Tailwind configuration here -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#1e3a8a',
+              secondary: '#f59e0b',
+            },
+          },
+        },
+      }
+    </script>
+
+
 
     <!-- Tailwind CSS (precompiled, production-safe) -->
     <link
@@ -20,15 +42,21 @@
 
     <!-- Framer Motion (globals) -->
     <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
+
+    
   </head>
-  <body class="bg-gray-100 text-gray-900">
+  <body class="bg-gray-50 min-h-screen">
     <div id="root"></div>
 
-    <!-- Mount your app -->
-    <script type="module">
-      const { createRoot } = ReactDOM;
-      const root = createRoot(document.getElementById("root"));
 
-        <script type="module" src="./src/App.js"></script>
+
+
+
+
+    
+   
+    <!-- Main application code (ES module) -->
+    <script type="module" src="./src/App.js"></script>
   </body>
 </html>
+
