@@ -11,7 +11,11 @@ import {
   addDoc,
   getDoc,
 } from '../firebase.js';
-import { useState, useEffect } from 'react';
+// Remove the named imports from 'react'.  When loading React via a UMD bundle,
+// React is exposed as a global variable.  Destructure useState and useEffect
+// from the global React object instead.  Importing from 'react' directly
+// fails when the files are served statically without a bundler.
+const { useState, useEffect } = React;
 
 export default function AdminDashboard({ user }) {
   const [tab, setTab] = useState('questions');

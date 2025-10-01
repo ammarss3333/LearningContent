@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Exam Platform</title>
     <!--
-      TailwindCSS is loaded via CDN to keep the front‑end fully static.  When the page loads in a modern browser
-      with an internet connection the CDN will download the framework.  If you wish to customise the styles or
-      host Tailwind yourself you can replace this with a locally compiled CSS file.
+      TailwindCSS is loaded via the play CDN to keep the front‑end fully static.
+      When the page loads in a modern browser with an internet connection the
+      CDN downloads the framework.  We use the play CDN here so we can
+      customise colours through the `tailwind.config` object below.  The
+      play CDN logs a warning in production but works fine for a small
+      project like this.  To optimise for production you can compile a
+      custom CSS file locally with Tailwind CLI instead.
     -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Optional: include a custom colour palette or Tailwind configuration here -->
+    <!-- Extend the Tailwind colour palette with custom primary/secondary colours -->
     <script>
       tailwind.config = {
         theme: {
@@ -22,41 +25,23 @@
             },
           },
         },
-      }
+      };
     </script>
-
-
-
-    <!-- Tailwind CSS (precompiled, production-safe) -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css"
-    />
-
-    <!-- React and ReactDOM (globals) -->
-    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-
-    <!-- React Router DOM (globals) -->
-    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
-
-    <!-- Framer Motion (globals) -->
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
-
-    
   </head>
   <body class="bg-gray-50 min-h-screen">
     <div id="root"></div>
-
-
-
-
-
-
-    
-   
+    <!--
+      Load React, ReactDOM, React Router and Framer Motion from jsDelivr instead of unpkg.
+      Unpkg redirects versionless requests to the latest minor version and does not set
+      CORS headers, which causes browsers to block the request when served from GitHub Pages.
+      jsDelivr hosts the UMD builds and sets permissive CORS headers.  Pin the versions
+      to avoid unexpected upgrades.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
     <!-- Main application code (ES module) -->
     <script type="module" src="./src/App.js"></script>
   </body>
 </html>
-
