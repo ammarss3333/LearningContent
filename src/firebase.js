@@ -1,9 +1,5 @@
+// src/firebase.js
 // Firebase initialization and helper functions for Vite/React app
-//
-// We import Firebase modules from the npm package rather than loading them
-// from a CDN.  This allows Vite to bundle the code and makes the
-// application fully static.  To configure your own Firebase project,
-// update the values in src/firebaseConfig.js.
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -14,7 +10,9 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import {
-  getFirestore,
+  // Use initializeFirestore so we can pass connectivity options
+  initializeFirestore,
+  // (You can still import getFirestore if you need it elsewhere, but not used here)
   collection,
   doc,
   getDoc,
@@ -30,25 +28,31 @@ import {
 
 import { firebaseConfig } from './firebaseConfig.js';
 
-// Initialise Firebase
+// --- Initialize Firebase ---
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const provider = new GoogleAuthProvider();
 
-// Sign in using Google popup
+// Auth
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
+
+// Firestore with auto long-polling fallback (helps on GitHub Pages / strict networks)
+export const db = initializeFirestore(app, {
+  experimentalAutoDetectLongPolling: true,
+  // If you still have issues on very strict proxies, uncomment the next line:
+  // experimentalForceLongPolling: true,
+});
+
+// --- Auth helpers ---
 export function signIn() {
   return signInWithPopup(auth, provider);
 }
 
-// Sign out the current user
 export function signOutUser() {
   return signOut(auth);
 }
 
+// --- Re-exports for convenience ---
 export {
-  auth,
-  db,
   onAuthStateChanged,
   doc,
   getDoc,
