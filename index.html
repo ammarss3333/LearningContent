@@ -3,44 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Exam Platform</title>
-    <!--
-      TailwindCSS is loaded via CDN to keep the front‑end fully static.  When the page loads in a modern browser
-      with an internet connection the CDN will download the framework.  If you wish to customise the styles or
-      host Tailwind yourself you can replace this with a locally compiled CSS file.
-    -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Optional: include a custom colour palette or Tailwind configuration here -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#1e3a8a',
-              secondary: '#f59e0b',
-            },
-          },
-        },
-      }
-    </script>
+    <title>LearningContent Platform</title>
+
+    <!-- Tailwind CSS (precompiled, production-safe) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.5/dist/tailwind.min.css"
+    />
+
+    <!-- React and ReactDOM (globals) -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- React Router DOM (globals) -->
+    <script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
+
+    <!-- Framer Motion (globals) -->
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
   </head>
-  <body class="bg-gray-50 min-h-screen">
+  <body class="bg-gray-100 text-gray-900">
     <div id="root"></div>
 
+    <!-- Mount your app -->
+    <script type="module">
+      const { createRoot } = ReactDOM;
+      const root = createRoot(document.getElementById("root"));
 
-<!-- React and ReactDOM from jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-<!-- React Router (v6) pinned version -->
-<script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.30.1/umd/react-router-dom.production.min.js"></script>
-<!-- Framer Motion (optional) -->
-<script src="https://cdn.jsdelivr.net/npm/framer-motion@12.23.22/dist/framer-motion.umd.js"></script>
+      // Example simple app — replace with your App.js content
+      function App() {
+        const { useState } = React;
+        const [count, setCount] = useState(0);
 
+        return React.createElement(
+          "div",
+          { className: "p-8 text-center" },
+          React.createElement("h1", { className: "text-2xl font-bold mb-4" }, "🚀 LearningContent"),
+          React.createElement(
+            "button",
+            {
+              className: "bg-blue-500 text-white px-4 py-2 rounded",
+              onClick: () => setCount(count + 1),
+            },
+            `Clicked ${count} times`
+          )
+        );
+      }
 
-
-    
-   
-    <!-- Main application code (ES module) -->
-    <script type="module" src="./src/App.js"></script>
+      root.render(React.createElement(App));
+    </script>
   </body>
 </html>
