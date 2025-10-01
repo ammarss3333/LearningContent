@@ -1,29 +1,17 @@
 [
   {
+    "id": "example1",
     "text": "What is the capital of France?",
     "type": "mcq",
-    "options": ["Paris", "Madrid", "Rome", "Berlin"],
+    "options": ["Paris", "London", "Rome", "Berlin"],
     "answer": 0,
-    "explanation": "Paris is the capital city of France."
+    "explanation": "Paris is the capital and most populous city of France."
   },
   {
-    "text": "The chemical symbol for gold is Au.",
+    "id": "example2",
+    "text": "The earth is flat.",
     "type": "truefalse",
-    "options": ["True", "False"],
-    "answer": true,
-    "explanation": "Au comes from the Latin word ‘aurum’ which means gold."
-  },
-  {
-    "text": "Match the countries to their capitals (drag each item to the correct position)",
-    "type": "drag",
-    "options": ["Saudi Arabia – Riyadh", "Italy – Rome", "Japan – Tokyo"],
-    "answer": ["Saudi Arabia – Riyadh", "Italy – Rome", "Japan – Tokyo"],
-    "explanation": "Each country is paired with its corresponding capital city."
-  },
-  {
-    "text": "Who wrote \"Romeo and Juliet\"?",
-    "type": "short",
-    "answer": "William Shakespeare",
-    "explanation": "William Shakespeare wrote the tragedy \"Romeo and Juliet\" in the late 16th century."
+    "answer": false,
+    "explanation": "The earth is an oblate spheroid."
   }
 ]

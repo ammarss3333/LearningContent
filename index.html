@@ -4,47 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Exam Platform</title>
-    <!--
-      TailwindCSS is loaded via the play CDN to keep the front‑end fully static.
-      When the page loads in a modern browser with an internet connection the
-      CDN downloads the framework.  We use the play CDN here so we can
-      customise colours through the `tailwind.config` object below.  The
-      play CDN logs a warning in production but works fine for a small
-      project like this.  To optimise for production you can compile a
-      custom CSS file locally with Tailwind CLI instead.
-    -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Extend the Tailwind colour palette with custom primary/secondary colours -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#1e3a8a',
-              secondary: '#f59e0b',
-            },
-          },
-        },
-      };
-    </script>
   </head>
   <body class="bg-gray-50 min-h-screen">
+    <!-- Root mount point for our React application -->
     <div id="root"></div>
-
-<!-- React and ReactDOM (globals) -->
-<script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"></script>
-
-<!-- React Router DOM (globals) -->
-<script src="https://cdn.jsdelivr.net/npm/react-router-dom@6.23.1/umd/react-router-dom.production.min.js"></script>
-
-<!-- Framer Motion (globals) -->
-<script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.4/dist/framer-motion.umd.min.js"></script>
-
-<!-- Your app -->
-
-
-    
-    <script type="module" src="./src/App.js"></script>
+    <!-- Vite will load src/main.js as a module and bundle the app during build -->
+    <!-- Vite will load src/main.jsx as a module and bundle the app during build -->
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
