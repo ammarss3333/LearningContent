@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import {
   auth,
   db,
@@ -64,7 +64,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <Header user={user} isAdmin={isAdmin} />
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 p-4">
         <Routes>
@@ -79,6 +79,6 @@ export default function App() {
           <Route path="*" element={<HomePage user={user} />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </>
   );
 }
