@@ -1,20 +1,24 @@
+// src/pages/AdminDashboard.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import {
   db,
   collection,
   getDocs,
   doc,
-  setDoc,
   updateDoc,
   deleteDoc,
   addDoc,
   getDoc,
 } from '../firebase.js';
+import { Link } from 'react-router-dom';
 
-// The AdminDashboard provides a secure interface for administrators to
-// manage questions, exams and view progress.  Access is restricted via
-// an `isAdmin` flag on the user document in Firestore.  Each sub‑panel
-// is implemented as its own component below.
+/**
+ * The AdminDashboard provides a secure interface for administrators to
+ * manage questions, exams and view student progress.  Access is restricted
+ * via an `isAdmin` flag on the user document.  Within the panel there
+ * are three sub‑components: ManageQuestions, ManageExams and ViewProgress.
+ */
 export default function AdminDashboard({ user }) {
   const [tab, setTab] = useState('questions');
   if (!user?.isAdmin) {
@@ -41,12 +45,12 @@ export default function AdminDashboard({ user }) {
   );
 }
 
+// ----------------------- Manage Questions -----------------------
 function ManageQuestions() {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editQuestion, setEditQuestion] = useState(null);
-  // File input ref for importing JSON
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -74,7 +78,6 @@ function ManageQuestions() {
     }
   };
 
-  // Handle importing a JSON file containing an array of question objects.
   const handleImportFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -86,7 +89,6 @@ function ManageQuestions() {
         return;
       }
       for (const item of json) {
-        // Validate required fields
         if (!item.text || !item.type) continue;
         const ref = await addDoc(collection(db, 'questions'), item);
         setQuestions((prev) => [...prev, { id: ref.id, ...item }]);
@@ -96,12 +98,10 @@ function ManageQuestions() {
       console.error('Failed to import questions', err);
       alert('Failed to import questions. Check console for details.');
     } finally {
-      // reset file input
       e.target.value = '';
     }
   };
 
-  // Export current questions as JSON
   const handleExport = () => {
     const dataStr =
       'data:text/json;charset=utf-8,' +
@@ -121,10 +121,8 @@ function ManageQuestions() {
 
   const handleSave = (qid, data) => {
     if (qid) {
-      // editing existing
       setQuestions((prev) => prev.map((q) => (q.id === qid ? { id: qid, ...data } : q)));
     } else {
-      // new question added: it will have id set by form
       setQuestions((prev) => [...prev, data]);
     }
     handleFormClose();
@@ -174,6 +172,7 @@ function ManageQuestions() {
           <tr>
             <th className="border px-2 py-1">Text</th>
             <th className="border px-2 py-1">Type</th>
+            <th className="border px-2 py-1">Category</th>
             <th className="border px-2 py-1">Actions</th>
           </tr>
         </thead>
@@ -182,6 +181,7 @@ function ManageQuestions() {
             <tr key={q.id}>
               <td className="border px-2 py-1">{q.text}</td>
               <td className="border px-2 py-1 capitalize">{q.type}</td>
+              <td className="border px-2 py-1">{q.category || '-'}</td>
               <td className="border px-2 py-1 space-x-2">
                 <button
                   onClick={() => {
@@ -207,6 +207,7 @@ function ManageQuestions() {
   );
 }
 
+// Form for creating or editing a question
 function QuestionForm({ initial, onClose, onSave }) {
   const isEdit = Boolean(initial);
   const [text, setText] = useState(initial?.text || '');
@@ -214,6 +215,7 @@ function QuestionForm({ initial, onClose, onSave }) {
   const [optionsStr, setOptionsStr] = useState((initial?.options || []).join('\n'));
   const [answer, setAnswer] = useState(initial?.answer || '');
   const [explanation, setExplanation] = useState(initial?.explanation || '');
+  const [category, setCategory] = useState(initial?.category || '');
   const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -224,8 +226,8 @@ function QuestionForm({ initial, onClose, onSave }) {
         text: text,
         type: type,
         explanation: explanation,
+        category: category,
       };
-      // parse options and answer depending on type
       if (type === 'mcq' || type === 'drag') {
         const opts = optionsStr
           .split('\n')
@@ -235,7 +237,6 @@ function QuestionForm({ initial, onClose, onSave }) {
         if (type === 'mcq') {
           data.answer = Number(answer);
         } else {
-          // drag: correct answer is the provided order of options
           data.answer = opts;
         }
       } else if (type === 'truefalse') {
@@ -342,6 +343,16 @@ function QuestionForm({ initial, onClose, onSave }) {
           </div>
         )}
         <div>
+          <label className="block font-medium">Category</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full border rounded p-2"
+            placeholder="Enter category (e.g. Algebra, Grammar…)"
+          />
+        </div>
+        <div>
           <label className="block font-medium">Explanation (optional)</label>
           <textarea
             value={explanation}
@@ -372,12 +383,14 @@ function QuestionForm({ initial, onClose, onSave }) {
   );
 }
 
+// ----------------------- Manage Exams -----------------------
 function ManageExams() {
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editExam, setEditExam] = useState(null);
   const [questions, setQuestions] = useState([]);
+
   useEffect(() => {
     async function fetchAll() {
       try {
@@ -393,6 +406,7 @@ function ManageExams() {
     }
     fetchAll();
   }, []);
+
   const handleDelete = async (id) => {
     if (!confirm('Delete this exam?')) return;
     try {
@@ -402,6 +416,7 @@ function ManageExams() {
       console.error('Failed to delete exam', err);
     }
   };
+
   const handleSave = (id, data) => {
     if (id) {
       setExams((prev) => prev.map((e) => (e.id === id ? { id, ...data } : e)));
@@ -411,7 +426,9 @@ function ManageExams() {
     setShowForm(false);
     setEditExam(null);
   };
+
   if (loading) return <div className="p-4">Loading exams…</div>;
+
   return (
     <div className="space-y-4">
       <button
@@ -453,13 +470,19 @@ function ManageExams() {
                   ? `Random (${exam.randomCount})`
                   : 'All'}
               </td>
-              <td className="border px-2 py-1 space-x-2">
+              <td className="border px-2 py-1 space-x-2 whitespace-nowrap">
+                <Link
+                  to={`/exam/${exam.id}`}
+                  className="text-green-600 underline mr-2"
+                >
+                  Preview
+                </Link>
                 <button
                   onClick={() => {
                     setEditExam(exam);
                     setShowForm(true);
                   }}
-                  className="text-blue-600 underline"
+                  className="text-blue-600 underline mr-2"
                 >
                   Edit
                 </button>
@@ -478,6 +501,7 @@ function ManageExams() {
   );
 }
 
+// Form for creating or editing an exam
 function ExamForm({ initial, onClose, onSave, availableQuestions }) {
   const isEdit = Boolean(initial);
   const [title, setTitle] = useState(initial?.title || '');
@@ -510,13 +534,11 @@ function ExamForm({ initial, onClose, onSave, availableQuestions }) {
         data.randomCount = Number(randomCount);
         data.questionIds = [];
       } else {
-        // all
         data.questionIds = [];
         data.randomCount = null;
       }
-      let ref;
       if (isEdit) {
-        ref = doc(db, 'exams', initial.id);
+        const ref = doc(db, 'exams', initial.id);
         await updateDoc(ref, data);
         onSave(initial.id, { ...data, id: initial.id });
       } else {
@@ -625,11 +647,13 @@ function ExamForm({ initial, onClose, onSave, availableQuestions }) {
   );
 }
 
+// ----------------------- View Progress -----------------------
 function ViewProgress() {
   const [loading, setLoading] = useState(true);
   const [attempts, setAttempts] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [examsMap, setExamsMap] = useState({});
+
   useEffect(() => {
     async function fetchAll() {
       try {
@@ -655,6 +679,7 @@ function ViewProgress() {
     }
     fetchAll();
   }, []);
+
   if (loading) return <div className="p-4">Loading progress…</div>;
   return (
     <div className="space-y-4">
